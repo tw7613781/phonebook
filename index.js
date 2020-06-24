@@ -87,7 +87,7 @@ app.put('/api/persons/:id', (req, res, next)=>{
     }
     Person.findByIdAndUpdate(req.params.id, person, {new: true}).then((updatedPerson) => {
         if (updatedPerson) {
-            res.json(person)
+            res.json(updatedPerson)
         } else {
             res.status(404).end()
         }
