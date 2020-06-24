@@ -1,0 +1,7 @@
+PUT https://radiant-ridge-98918.herokuapp.com/api/persons
+Content-Type: application/json
+
+{
+    "name": "Max Tang",
+    "number": "010-2329"
+}
