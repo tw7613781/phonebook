@@ -96,11 +96,18 @@ app.put('/api/persons/:id', (req, res, next)=>{
     })    
 })
 
+const unknownEndpoint = (req, res) => {
+    res.status(404).send({error: "unknown endpoint"})
+}
+
+app.use(unknownEndpoint)
+
 const errorHandler = (err, req, res, next) => {
     console.log(err.message)
     if (err.name === 'CastError') {
         res.status(400).send({error: 'malformatted id'})
     }
+    next(err)
 }
 
 app.use(errorHandler)
