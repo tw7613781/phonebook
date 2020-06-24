@@ -1,3 +1,3 @@
-DELETE https://radiant-ridge-98918.herokuapp.com/api/persons/5ef2ee8e03330a000490b00a
+DELETE https://radiant-ridge-98918.herokuapp.com/api/persons/5ef2e50a7474f20004b85e28
 
 DELETE https://radiant-ridge-98918.herokuapp.com/api/persons/5
