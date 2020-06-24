@@ -56,7 +56,11 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndRemove(req.params.id).then( (ret)=>{
-        res.status(204).end()
+        if (ret) {
+            res.status(204).end()
+        } else {
+            res.status(404).end()
+        }
     }).catch( (e)=>{
         next(e)
     })
@@ -82,7 +86,11 @@ app.put('/api/persons/:id', (req, res, next)=>{
         number: body.number
     }
     Person.findByIdAndUpdate(req.params.id, person, {new: true}).then((updatedPerson) => {
-        res.json(updatedPerson)
+        if (perupdatedPersonson) {
+            res.json(person)
+        } else {
+            res.status(404).end()
+        }
     }).catch( (e)=>{
         next(e)
     })    
