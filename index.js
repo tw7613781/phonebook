@@ -3,6 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
+const e = require('express')
 const app = express()
 
 morgan.token('body', (req) => {
@@ -85,15 +86,20 @@ app.put('/api/persons/:id', (req, res, next)=>{
         name: body.name,
         number: body.number
     }
-    Person.findByIdAndUpdate(req.params.id, person, {new: true}).then((updatedPerson) => {
-        if (updatedPerson) {
-            res.json(updatedPerson)
-        } else {
-            res.status(404).end()
-        }
-    }).catch( (e)=>{
-        next(e)
-    })    
+    Person.findByIdAndUpdate(
+        req.params.id, 
+        person, 
+        {new: true, runValidators: true, context: 'query'})
+        .then((updatedPerson) => {
+            if (updatedPerson) {
+                res.json(updatedPerson)
+            } else {
+                res.status(404).end()
+            }
+        })
+        .catch( (e)=>{
+            next(e)
+        })    
 })
 
 const unknownEndpoint = (req, res) => {
@@ -106,6 +112,12 @@ const errorHandler = (err, req, res, next) => {
     console.log(err.message)
     if (err.name === 'CastError') {
         res.status(400).send({error: 'malformatted id'})
+    }
+    if (err.name === 'SyntaxError') {
+        res.status(400).send({error: err.message})
+    }
+    if (err.name === 'ValidationError') {
+        res.status(400).send({error: err.message})
     }
     next(err)
 }
